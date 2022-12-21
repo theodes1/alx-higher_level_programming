@@ -1,90 +1,71 @@
 #!/usr/bin/python3
-"""Square class: defines a square"""
-
-
 class Square:
-    """Represents a square"""
-
+    """
+    creates a square object
+    """
     def __init__(self, size=0, position=(0, 0)):
-        """Initializes private square size attribute and position attribute
-        Args:
-        size (int): the size of the square once instance is created
-        position (int): position where the square is going to be placed"""
-
         self.__size = size
-        self.position = position
-
-    def area(self):
-        """Initializes public square area attribute"""
-
-        return (self.__size * self.__size)
-
+        self.__position = position
+        """
+        initializes instance of a square
+        Args:
+            __size(int): size of square
+            __position(tuple):position
+        """
     @property
     def size(self):
-        """Initializes square size return"""
-        return (self.__size)
-
+        return self.__size
+        """
+        gets size
+        """
     @property
     def position(self):
-        """Initializes square position"""
-        return (self.__position)
-
-    @size.setter
-    def size(self, value):
-        """Initializes square size attribute
-        Args:
-        value (int): the size of a size of the square"""
-
-        if type(value) != int:
-            raise TypeError("size must be an integer")
-        else:
-            if value < 0:
-                raise ValueError("size must be >= 0")
-            else:
-                self.__size = value
-
+        return self.__position
+        """
+        gets position
+        """
     @position.setter
     def position(self, value):
-        """Initializes square position attribute
-        Args:
-        value (int): the position of the square"""
+        if(type(value) is not tuple or len(value) is not 2 or value[0] < 0 or
+           value[1] < 0):
+            raise TypeError("position must be a tuple of 2 positive integers")
+        self.__position = value
+        """
+        sets position
+        position has to be a tuple of positive integers
+        """
+    @size.setter
+    def size(self, value):
+        if(type(value) is not int):
+            raise TypeError("size must be an integer")
+        if(value < 0):
+            raise ValueError("size must be >= 0")
+        self.__size = value
+        """
+        sets size
+        size has to be an integer and positive
+        """
 
-        if not isinstance(value, tuple) or len(value) != 2:
-            raise TypeError("position must be a tuple of 2 positive integers")
-        if not isinstance(value[0], int) or not isinstance(value[1], int):
-            raise TypeError("position must be a tuple of 2 positive integers")
-        if value[0] < 0 or value[1] < 0:
-            raise TypeError("position must be a tuple of 2 positive integers")
-        else:
-            self.__position = value
-
+    def area(self):
+        return(self.__size**2)
+        """
+        returns the area of the size of the square
+        """
     def my_print(self):
-        """Initializes square printing"""
-
-        if self.__size == 0:
+        if(self.position[1]):
+            print('' * self.position[1])
+        for x in range(self.size):
+            if(self.position[0]):
+                print(" " * self.position[0], end='')
+            print("#" * self.size, end='')
             print()
-            return
-        else:
-            for position1 in range(self.__position[1]):
-                print()
-            for i in range(self.__size):
-                for position2 in range(self.__position[0]):
-                    print(" ", end="")
-                for j in range(self.__size):
-                    print("#", end="")
-                print()
-
+        """
+        prints a square of hashtags based on position and size
+        """
     def __str__(self):
-        square = []
-        if self.__size == 0:
+        if(self.size == 0):
             return ''
-        for newlines in range(self.__position[1]):
-            square.append('\n')
-        for rows in range(self.__size):
-            for spaces in range(self.__position[0]):
-                square.append(' ')
-            for hashes in range(self.__size):
-                square.append('#')
-            if rows != self.__size - 1:
-                square.append('\n')
-        return ''.join(square)
+        newlines = '\n' * self.position[1]
+        spaces = ' ' * self.position[0]
+        hashes = "#" * self.size
+        return newlines + '\n'.join(spaces + hashes for x in range(self.size))
