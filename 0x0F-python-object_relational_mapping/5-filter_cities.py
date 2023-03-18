@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""script that takes in an argument and displays all values in the states
-table of hbtn_0e_0_usa where name matches the argument."""
+"""script that takes in the name of a state as an argument and lists
+all cities of that state, using the database hbtn_0e_4_usa"""
 
 if __name__ == "__main__":
     """Access to db and get the values"""
@@ -15,14 +15,16 @@ if __name__ == "__main__":
     cur = db.cursor()
 
     # Executing MySQL Queries in Python
-    cur.execute("SELECT * FROM states WHERE name LIKE '{}' \
-                 ORDER BY states.id ASC".format(argv[4]))
+    cur.execute("SELECT cities.name FROM cities JOIN states \
+                 ON cities.state_id=states.id WHERE states.name LIKE '{}' \
+                 ORDER BY cities.id ASC".format(argv[4]))
 
     # Obtaining Query Results
     rows = cur.fetchall()
+    result = []
     for row in rows:
-        if row[1] == argv[4]:
-            print(row)
+        result.append(row[0])
+    print(", ".join(result))
 
     # Clean up
     cur.close()
