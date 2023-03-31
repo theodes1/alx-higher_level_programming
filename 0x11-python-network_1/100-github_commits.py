@@ -6,7 +6,6 @@ in GitHub
 from requests import get, auth
 import sys
 
-
 if __name__ == "__main__":
     try:
         repo = sys.argv[1]
