@@ -1,10 +1,10 @@
 #!/usr/bin/node
 // script that prints the title of a Star Wars movie
-const axios = require('axios');
-const args = process.argv.slice(2);
-const api = 'https://swapi-api.hbtn.io/api/films/';
-
-axios.get(api.concat(args[0]))
-  .then(response => {
-    console.log(response.data.title);
-  });
+const request = require('request');
+const id = process.argv[2];
+request('http://swapi.co/api/films/' + id + '/', function (error, response, body) {
+  if (error == null) {
+    const json = JSON.parse(body);
+    console.log(json.title);
+  }
+});
